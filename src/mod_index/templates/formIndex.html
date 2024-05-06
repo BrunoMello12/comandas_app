@@ -1,11 +1,60 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Pagina Inicial</title>
-  </head>
-  <body>
-    <h1>Rota da página inicial da nossa WEB APP</h1>
-    <h1>Bruno Vinicius Mello</h1>
-  </body>
-</html>
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block style %}
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2.5em;
+    color: #007bff;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul li {
+    display: inline;
+    margin-right: 10px;
+  }
+
+  ul li a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+
+  ul li a:hover {
+    color: #0056b3;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+  <h1>Seja bem-vindo!</h1>
+  <p>Explore nosso site e descubra tudo o que oferecemos.</p>
+</div>
+{% endblock %}
