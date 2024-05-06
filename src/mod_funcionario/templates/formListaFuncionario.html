@@ -1,12 +1,44 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Funcionários</title>
-  </head>
-  <body>
-    <h1>Rota da página de Funcionários da nossa WEB APP</h1>
-    <h1>Uso de render_template</h1>
-    <h1>Bruno Vinicius Mello</h1>
-  </body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+    Funcionários
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Funcionários</h1>
+
+        <form action="{{ url_for('funcionario.formFuncionario') }}" method="POST">
+            <button type="submit" class="btn btn-primary mt-3">Novo Funcionário</button>
+        </form>
+
+        <table class="table mt-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Matrícula</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Grupo</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Bruno Mello</td>
+                    <td>12345</td>
+                    <td>123.456.789-00</td>
+                    <td>(11) 98765-4321</td>
+                    <td>Admin</td>
+                    <td>
+                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <!-- Adicione mais linhas aqui para outros funcionários -->
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

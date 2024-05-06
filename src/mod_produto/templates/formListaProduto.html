@@ -1,11 +1,40 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Produtos</title>
-  </head>
-  <body>
-    <h1>Rota da página de Produtos da nossa WEB APP</h1>
-    <h1>Bruno Vinicius Mello</h1>
-  </body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+    Funcionários
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Produtos</h1>
+
+        <form action="{{ url_for('produto.formProduto') }}" method="POST">
+            <button type="submit" class="btn btn-primary mt-3">Novo Produto</button>
+        </form>
+
+        <table class="table mt-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Valor Unitário</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Bruno Mello</td>
+                    <td>blabla</td>
+                    <td>20</td>
+                    <td>
+                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <!-- Adicione mais linhas aqui para outros funcionários -->
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

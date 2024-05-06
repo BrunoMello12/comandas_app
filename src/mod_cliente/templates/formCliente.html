@@ -1,0 +1,140 @@
+{% extends "base.html" %} {% block title %}Funcionário{% endblock %} {% block
+  content %}
+  <style>
+    .form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin-top: -100px;
+    }
+  
+    /* Estilos para o formulário */
+    #formAdicionar {
+      background-color: #f7f7f7;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+  
+    /* Estilos para os inputs e labels */
+    input[type="text"],
+    input[type="tel"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+  
+    label {
+      margin-bottom: 5px;
+      display: block;
+    }
+  
+    /* Estilos para o botão */
+    button {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+  <div class="form">
+    <form name="formAdicionar" id="formAdicionar" action="" method="POST">
+      <h1>Cliente</h1>
+      <br/>
+      <input
+        type="text"
+        name="nome"
+        id="nome"
+        value=""
+        placeholder="Nome Cliente"
+        maxlength="100"
+        autofocus
+        required
+      />
+      <label for="nome">Nome</label>
+      <br />
+      <input
+        type="text"
+        name="cpf"
+        id="cpf"
+        value=""
+        placeholder="CPF"
+        maxlength="14"
+        required
+      />
+      <label for="cpf">CPF</label>
+      <br />
+      <input
+        type="tel"
+        name="telefone"
+        id="telefone"
+        value=""
+        placeholder="Telefone"
+        maxlength="14"
+        required
+      />
+      <label for="telefone" class="form-label">Telefone</label>
+      <br />
+      <button type="submit" name="salvaUsuarioDB" id="salvaUsuarioDB">
+        <i class="fas fa-save"></i> Salvar
+      </button>
+    </form>
+  </div>
+  <script>
+    // Função para aplicar máscara de CPF
+    function formatarCPF(cpf) {
+      cpf = cpf.replace(/\D/g, ''); // Remove caracteres não numéricos
+      cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Insere o primeiro ponto
+      cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Insere o segundo ponto
+      cpf = cpf.replace(/(\d{3})(\d{2})$/, '$1-$2'); // Insere o traço
+      return cpf;
+    }
+  
+    // Função para aplicar máscara de telefone
+    function formatarTelefone(telefone) {
+      telefone = telefone.replace(/\D/g, ''); // Remove caracteres não numéricos
+      telefone = telefone.replace(/^(\d{2})(\d)/g, '($1) $2'); // Insere o código de área
+      telefone = telefone.replace(/(\d)(\d{4})$/, '$1-$2'); // Insere o hífen no final
+      return telefone;
+    }
+  
+    // Aplica máscara de CPF ao digitar no campo
+    document.getElementById('cpf').addEventListener('input', function(event) {
+      this.value = formatarCPF(event.target.value);
+    });
+  
+    // Aplica máscara de telefone ao digitar no campo
+    document.getElementById('telefone').addEventListener('input', function(event) {
+      this.value = formatarTelefone(event.target.value);
+    });
+  
+    function validarFormulario() {
+      var nome = document.getElementById('nome').value;
+      var cpf = document.getElementById('cpf').value;
+      var telefone = document.getElementById('telefone').value;
+  
+      if (nome.trim() === '' || cpf.trim() === '' || telefone.trim() === '') {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+      }
+  
+      // Se todos os campos obrigatórios estão preenchidos e as senhas coincidem, submeta o formulário
+      document.getElementById('formAdicionar').submit();
+    }
+  </script>
+  {% endblock %}
+  

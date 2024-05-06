@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Produto{% endblock %}
+{% block content %}
+<style>
+  .form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: -100px;
+  }
+
+  /* Estilos para o formulário */
+  #formAdicionar {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+  }
+
+  /* Estilos para os inputs e labels */
+  input[type="text"],
+  textarea,
+  input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  label {
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  /* Estilos para o botão */
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+</style>
+
+<div class="form">
+  <form name="formAdicionar" id="formAdicionar" action="" method="POST" enctype="multipart/form-data">
+    <h1>Produto</h1>
+    <input type="hidden" name="id_produto" id="id_produto" value="" />
+    <!-- Nome do Produto -->
+    <input type="text" name="nome" id="nome" placeholder="Nome do Produto" maxlength="100" autofocus required />
+    <label for="nome">Nome do Produto</label>
+    <br />
+    <!-- Descrição do Produto -->
+    <textarea name="descricao" id="descricao" placeholder="Descrição do Produto" rows="4" required></textarea>
+    <label for="descricao">Descrição</label>
+    <br />
+    <!-- Foto do Produto (Input para arquivo) -->
+    <input type="file" name="foto" id="foto" accept="image/*" required />
+    <label for="foto">Foto do Produto</label>
+    <br />
+    <!-- Valor Unitário do Produto -->
+    <input type="number" name="valor_unitario" id="valor_unitario" placeholder="Valor Unitário" step="0.01" required />
+    <label for="valor_unitario">Valor Unitário</label>
+    <br />
+    <!-- Botão Salvar -->
+    <button type="button" onclick="validarFormulario()">
+      <i class="fas fa-save"></i> Salvar
+    </button>
+  </form>
+</div>
+
+<script>
+  // Função para validar e submeter o formulário
+  function validarFormulario() {
+    var nome = document.getElementById('nome').value;
+    var descricao = document.getElementById('descricao').value;
+    var foto = document.getElementById('foto').value;
+    var valor_unitario = document.getElementById('valor_unitario').value;
+
+    if (nome.trim() === '' || descricao.trim() === '' || foto.trim() === '' || valor_unitario.trim() === '') {
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
+
+    // Se todos os campos obrigatórios estão preenchidos, submeta o formulário
+    document.getElementById('formAdicionar').submit();
+  }
+</script>
+{% endblock %}
