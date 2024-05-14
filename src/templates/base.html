@@ -17,47 +17,48 @@
       href="{{ url_for('static', filename='favicon.ico') }}"
     />
     <style>
-       /* Reset de margin e padding para o body e html */
-    body, html {
-      margin: 0;
-      padding: 0;
-    }
+      /* Reset de margin e padding para o body e html */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+      }
 
-    /* Estilos para a navbar */
-    .navbar {
-      background-color: #343a40; /* Cor de fundo */
-      padding: 10px 70px; /* Espaçamento interno */
-      top: 0; /* Ancorar no topo */
-      width: 100%; /* Largura total */
-    }
+      /* Estilos para a navbar */
+      .navbar {
+        background-color: #343a40; /* Cor de fundo */
+        padding: 10px 70px; /* Espaçamento interno */
+        top: 0; /* Ancorar no topo */
+        width: 100%; /* Largura total */
+      }
 
-    .navbar ul {
-      list-style-type: none; /* Remover marcadores de lista */
-      margin: 0;
-      padding: 0;
-      text-align: center; /* Alinhar itens ao centro */
-    }
+      .navbar ul {
+        list-style-type: none; /* Remover marcadores de lista */
+        margin: 0;
+        padding: 0;
+        text-align: center; /* Alinhar itens ao centro */
+      }
 
-    .navbar ul li {
-      display: inline; /* Exibir itens em linha */
-      margin-right: 20px; /* Espaçamento entre os itens */
-    }
+      .navbar ul li {
+        display: inline; /* Exibir itens em linha */
+        margin-right: 20px; /* Espaçamento entre os itens */
+      }
 
-    .navbar ul li a {
-      color: #ffffff; /* Cor do texto */
-      text-decoration: none; /* Remover sublinhado */
-      font-size: 18px; /* Tamanho da fonte */
-      transition: color 0.3s ease; /* Transição suave da cor do texto */
-    }
+      .navbar ul li a {
+        color: #ffffff; /* Cor do texto */
+        text-decoration: none; /* Remover sublinhado */
+        font-size: 18px; /* Tamanho da fonte */
+        transition: color 0.3s ease; /* Transição suave da cor do texto */
+      }
 
-    .navbar ul li a:hover {
-      color: #ffc107; /* Cor do texto ao passar o mouse */
-    }
+      .navbar ul li a:hover {
+        color: #ffc107; /* Cor do texto ao passar o mouse */
+      }
 
-    /* Estilos para o conteúdo principal abaixo da navbar */
-    .content-container {
-      padding-top: 80px; /* Espaçamento para compensar a altura da navbar */
-    }
+      /* Estilos para o conteúdo principal abaixo da navbar */
+      .content-container {
+        padding-top: 80px; /* Espaçamento para compensar a altura da navbar */
+      }
     </style>
   </head>
   <body>
@@ -104,9 +105,14 @@
             ><i class="fas fa-pizza-slice"></i> PRODUTOS</a
           >
         </li>
+        <li>
+          <a href="{{ url_for('login.logoff') }}"
+            ><i class="fas fa-door-open"></i> SAIR</a
+          >
+        </li>
       </ul>
     </div>
-    
+
     {% endblock %}
     <div class="container-fluid mt-3">
       {% block content %}{% endblock %}

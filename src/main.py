@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, session
+import os
 from settings import HOST, PORT, DEBUG
 from flask import Flask, render_template
 from mod_funcionario.funcionario import bp_funcionario
@@ -11,6 +12,10 @@ from mod_erro.erro import bp_erro
 #BRUNO VINICIUS MELLO
 
 app = Flask(__name__)
+
+# gerando uma chave randômica para secret_key
+app.secret_key = os.urandom(12).hex()
+
 # registro das rotas do blueprint
 app.register_blueprint(bp_funcionario)
 app.register_blueprint(bp_index)

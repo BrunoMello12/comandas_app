@@ -21,22 +21,29 @@
                     <th scope="col">CPF</th>
                     <th scope="col">Telefone</th>
                     <th scope="col">Grupo</th>
+                    <th scope="col">Senha</th>
                     <th scope="col">Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Bruno Mello</td>
-                    <td>12345</td>
-                    <td>123.456.789-00</td>
-                    <td>(11) 98765-4321</td>
+                    {% if result %}
+                    {% for row in result %}
+                    <th scope="row">{{ row['id_funcionario']}}/th>
+                    <td>{{row['nome']}}</td>
+                    <td>{{row['matricula']}}</td>
+                    <td>{{row['cpf']}}</td>
+                    <td>{{row['telefone']}}</td>
+                    <td>{{row['grupo']}}</td>
+                    <td>{{row['senha']}}</td>
                     <td>Admin</td>
                     <td>
                         <a href="#" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
+                {% endfor %}
+                {% endif %}
                 <!-- Adicione mais linhas aqui para outros funcionários -->
             </tbody>
         </table>
