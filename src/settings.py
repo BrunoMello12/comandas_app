@@ -1,6 +1,6 @@
 from dotenv import load_dotenv, find_dotenv
 import os
-
+from flask import session
 # localiza o arquivo de .env
 dotenv_file = find_dotenv()
 
