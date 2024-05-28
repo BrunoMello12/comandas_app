@@ -89,7 +89,7 @@ content %}
   });
   
   // Sempre pega a URL da barra de endereço
-//   $SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
+  $SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
   
   function deletarFuncionario(idFuncionario) {
     $.post($SCRIPT_ROOT + "{{ url_for('funcionario.delete') }}", {

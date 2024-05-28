@@ -60,7 +60,12 @@
         padding-top: 80px; /* Espaçamento para compensar a altura da navbar */
       }
     </style>
-  </head>
+
+<script src="{{ url_for('static', filename='bootstrap-5.3.3-dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='fontawesome-free-6.5.2-web/js/all.js') }}"></script>
+<script src="{{ url_for('static', filename='jquery-3.7.1.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
   <body>
     {% if request.args.get('msg'): %}
 
@@ -121,8 +126,5 @@
     {% block footer %}
     <a href="{{ url_for('index.formIndex') }}">&copy; 2024 by AbcBolinhas</a>
     {% endblock %} {% block js %}{% endblock %}
-    <script src="{{ url_for('static', filename='bootstrap-5.3.3-dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='fontawesome-free-6.5.2-web/js/all.js') }}"></script>
-    <script src="{{ url_for('static', filename='jquery-3.7.1.min.js') }}"></script>
   </body>
 </html>
