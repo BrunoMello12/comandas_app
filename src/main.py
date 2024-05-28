@@ -1,6 +1,7 @@
 from flask import Flask, session
 import os
-from settings import HOST, PORT, DEBUG
+from datetime import timedelta
+from settings import HOST, PORT, DEBUG, TEMPO_SESSION
 from flask import Flask, render_template
 from mod_funcionario.funcionario import bp_funcionario
 from mod_index.index import bp_index
@@ -15,6 +16,14 @@ app = Flask(__name__)
 
 # gerando uma chave randômica para secret_key
 app.secret_key = os.urandom(12).hex()
+
+# método para renovar o tempo da sessão
+@app.before_request
+def before_request():
+    session.permanent = True
+    session['tempo'] = int(TEMPO_SESSION)
+    # o padrão é 31 dias...
+    app.permanent_session_lifetime = timedelta(minutes=session['tempo'])
 
 # registro das rotas do blueprint
 app.register_blueprint(bp_funcionario)
