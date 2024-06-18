@@ -1,3 +1,7 @@
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from flask import send_file
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 import requests
 from funcoes import Funcoes
@@ -106,3 +110,34 @@ def delete():
 @bp_funcionario.route('/form-funcionario/', methods=['POST'])
 def formFuncionario():
     return render_template('formFuncionario.html')
+
+@bp_funcionario.route('/gerar-pdf', methods=['POST'])
+def gerar_pdf():
+    try:
+        response = requests.get(ENDPOINT_FUNCIONARIO, headers=getHeadersAPI())
+        result = response.json()
+
+        if response.status_code != 200:
+            raise Exception(result)
+
+        buffer = BytesIO()
+        c = canvas.Canvas(buffer, pagesize=letter)
+        width, height = letter
+
+        c.drawString(30, height - 40, "Relatório de Funcionários")
+        c.drawString(30, height - 60, "ID, Nome, Matrícula, CPF, Telefone, Grupo")
+
+        y = height - 80
+        for row in result[0]:
+            text = f"{row['id_funcionario']}, {row['nome']}, {row['matricula']}, {row['cpf']}, {row['telefone']}, {row['grupo']}"
+            c.drawString(30, y, text)
+            y -= 20
+            if y < 40:
+                c.showPage()
+                y = height - 40
+
+        c.save()
+        buffer.seek(0)
+        return send_file(buffer, as_attachment=True, download_name="relatorio_funcionarios.pdf", mimetype='application/pdf')
+    except Exception as e:
+        return render_template('formListaFuncionario.html', msgErro=e.args[0])

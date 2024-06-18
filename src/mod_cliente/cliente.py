@@ -1,3 +1,7 @@
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from flask import send_file
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 import requests
 from funcoes import Funcoes
@@ -97,3 +101,28 @@ def delete():
 @bp_cliente.route('/form-cliente/', methods=['POST'])
 def formCliente():
     return render_template('formCliente.html')
+
+@bp_cliente.route('/gerar_pdf', methods=['POST'])
+def gerar_pdf():
+    try:
+        response = requests.get(ENDPOINT_CLIENTE, headers=getHeadersAPI())
+        result = response.json()
+
+        if response.status_code != 200:
+            raise Exception(result)
+
+        buffer = BytesIO()
+        pdf = canvas.Canvas(buffer, pagesize=letter)
+        pdf.setTitle("Lista de Clientes")
+        pdf.drawString(100, 750, "Lista de Clientes")
+
+        y = 720
+        for cliente in result[0]:
+            pdf.drawString(100, y, f"ID: {cliente['id_cliente']}, Nome: {cliente['nome']}, CPF: {cliente['cpf']}, Telefone: {cliente['telefone']}")
+            y -= 20
+
+        pdf.save()
+        buffer.seek(0)
+        return send_file(buffer, as_attachment=True, download_name='clientes.pdf', mimetype='application/pdf')
+    except Exception as e:
+        return render_template('formListaCliente.html', msgErro=e.args[0])

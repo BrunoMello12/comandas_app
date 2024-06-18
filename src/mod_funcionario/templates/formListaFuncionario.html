@@ -1,10 +1,15 @@
-{% extends "base.html" %} {% block title %} Funcionários {% endblock %} {% block
-content %}
+{% extends "base.html" %}
+{% block title %} Funcionários {% endblock %}
+{% block content %}
 <div class="container mt-4">
   <h1>Funcionários</h1>
 
   <form action="{{ url_for('funcionario.formFuncionario') }}" method="POST">
     <button type="submit" class="btn btn-primary mt-3">Novo Funcionário</button>
+  </form>
+
+  <form action="{{ url_for('funcionario.gerar_pdf') }}" method="POST">
+    <button type="submit" class="btn btn-secondary mt-3">Gerar PDF</button>
   </form>
 
   <table class="table mt-4">
@@ -65,13 +70,13 @@ content %}
     </tbody>
   </table>
 </div>
-{% endblock %} 
+{% endblock %}
 {% block js %}
 <script>
   $("form[name='jsDelete']").submit(function (e) {
     // Parar o envio para poder fazer manualmente
     e.preventDefault();
-    
+
     Swal.fire({
       title: '',
       text: "Deseja realmente excluir: " + $(e.target)[0][0].value,
@@ -87,10 +92,10 @@ content %}
       }
     })
   });
-  
+
   // Sempre pega a URL da barra de endereço
   $SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
-  
+
   function deletarFuncionario(idFuncionario) {
     $.post($SCRIPT_ROOT + "{{ url_for('funcionario.delete') }}", {
       id: idFuncionario

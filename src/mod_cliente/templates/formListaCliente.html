@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}
-    Funcionários
-{% endblock %}
+{% block title %} Clientes {% endblock %}
 
 {% block content %}
     <div class="container mt-4">
@@ -10,6 +8,10 @@
 
         <form action="{{ url_for('cliente.formCliente') }}" method="POST">
             <button type="submit" class="btn btn-primary mt-3">Novo Cliente</button>
+        </form>
+
+        <form action="{{ url_for('cliente.gerar_pdf') }}" method="POST">
+            <button type="submit" class="btn btn-secondary mt-3">Gerar PDF</button>
         </form>
 
         <table class="table mt-4">
@@ -23,52 +25,40 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    {% if result %} {% for row in result %}
-                    <th scope="row">{{ row['id_cliente']}}</th>
-                    <td>{{row['nome']}}</td>
-                    <td>{{row['cpf']}}</td>
-                    <td>{{row['telefone']}}</td>
-                    <td>Admin</td>
-                    <td>
-                      <form
-                        action="{{ url_for('cliente.formEditCliente') }}"
-                        method="POST"
-                        name="formEdit{{ row['id_cliente'] }}"
-                      >
-                        <input
-                          type="hidden"
-                          name="id"
-                          value="{{ row['id_cliente'] }}"
-                        />
-                        <button type="submit" name="formEditCliente">
-                          <i class="fas fa-edit"></i>
-                        </button>
-                      </form>
-                    </td>
-                    <td>
-                      <form method="POST" name="jsDelete" id="jsDelete">
-                        <input
-                          type="hidden"
-                          name="id"
-                          value="{{ row['id_cliente'] }}"
-                        />
-                        <button type="submit" name="formDeleteCliente" class="btn">
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </form>
-                    </td>
-                  </tr>
-                  {% endfor %} {% endif %}
-                <!-- Adicione mais linhas aqui para outros funcionários -->
+                {% if result %}
+                    {% for row in result %}
+                    <tr>
+                        <th scope="row">{{ row['id_cliente'] }}</th>
+                        <td>{{ row['nome'] }}</td>
+                        <td>{{ row['cpf'] }}</td>
+                        <td>{{ row['telefone'] }}</td>
+                        <td>
+                            <form action="{{ url_for('cliente.formEditCliente') }}" method="POST" name="formEdit{{ row['id_cliente'] }}">
+                                <input type="hidden" name="id" value="{{ row['id_cliente'] }}" />
+                                <button type="submit" name="formEditCliente">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="POST" name="jsDelete" id="jsDelete">
+                                <input type="hidden" name="id" value="{{ row['id_cliente'] }}" />
+                                <button type="submit" name="formDeleteCliente" class="btn">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </div>
 {% endblock %}
+
 {% block js %}
 <script>
   $("form[name='jsDelete']").submit(function (e) {
-    // Parar o envio para poder fazer manualmente
     e.preventDefault();
     
     Swal.fire({
@@ -82,12 +72,11 @@
       confirmButtonText: 'Sim'
     }).then((result) => {
       if (result.isConfirmed) {
-        deletarCliente($(e.target)[0][0].value); // Retorna o valor que está no id
+        deletarCliente($(e.target)[0][0].value);
       }
     })
   });
   
-  // Sempre pega a URL da barra de endereço
   $SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
   
   function deletarCliente(idCliente) {
