@@ -1,3 +1,7 @@
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from flask import send_file
 from flask import send_file
 from flask import Blueprint, render_template, request, jsonify
 import requests
@@ -78,5 +82,43 @@ def formEditProduto():
 @bp_produto.route('/form-lista-produto', methods=['GET'])
 @validaToken
 def formListaProduto():
-    return render_template('formListaProduto.html')
+    try:
+        response = requests.get(ENDPOINT_PRODUTO, headers=getHeadersAPI())
+        result = response.json()
+
+        print(result) # para teste
+        print(response.status_code) # para teste
+
+        if (response.status_code != 200):
+            raise Exception(result)
+
+        return render_template('formListaProduto.html', result=result[0])
+    except Exception as e:
+        return render_template('formListaProduto.html', msgErro=e.args[0])
+
+@bp_produto.route('/gerar_pdf', methods=['POST'])
+@validaToken
+def gerar_pdf():
+    try:
+        response = requests.get(ENDPOINT_PRODUTO, headers=getHeadersAPI())
+        result = response.json()
+
+        if response.status_code != 200:
+            raise Exception(result)
+
+        buffer = BytesIO()
+        pdf = canvas.Canvas(buffer, pagesize=letter)
+        pdf.setTitle("Lista de Produtos")
+        pdf.drawString(100, 750, "Lista de Produtos")
+
+        y = 720
+        for produto in result[0]:
+            pdf.drawString(100, y, f"ID: {produto['id_produto']}, Nome: {produto['nome']}, Descrição: {produto['descricao']}, Valor: {produto['valor_unitario']}")
+            y -= 20
+
+        pdf.save()
+        buffer.seek(0)
+        return send_file(buffer, as_attachment=True, download_name='produtos.pdf', mimetype='application/pdf')
+    except Exception as e:
+        return render_template('formListaProduto.html', msgErro=e.args[0])
 
